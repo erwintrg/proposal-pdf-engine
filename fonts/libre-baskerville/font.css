@@ -1,0 +1,7 @@
+/* Libre Baskerville, SIL Open Font License 1.1 with Reserved Font Name "Libre Baskerville"
+   (see OFL.txt in this folder). The files are the unmodified upstream releases from the
+   google/fonts repository, so the reserved name may be used. Variable font (wght 400-700). */
+@font-face { font-family: 'Libre Baskerville'; font-style: normal; font-weight: 400 700; font-display: block;
+  src: url('LibreBaskerville%5Bwght%5D.ttf') format('truetype'); }
+@font-face { font-family: 'Libre Baskerville'; font-style: italic; font-weight: 400 700; font-display: block;
+  src: url('LibreBaskerville-Italic%5Bwght%5D.ttf') format('truetype'); }

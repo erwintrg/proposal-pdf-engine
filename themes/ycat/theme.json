@@ -1,0 +1,50 @@
+{
+  "name": "YCAT",
+  "agency": {
+    "name": "You Can Automate This",
+    "short_name": "YCAT",
+    "person": "Erwin Truong",
+    "person_first_name": "Erwin",
+    "email": "you@example.com",
+    "website": "youcanautomatethis.com",
+    "address": [],
+    "vat_id": "",
+    "country": "DE",
+    "domestic_vat_rate": 0.19,
+    "domestic_vat_label": "VAT 19%",
+    "governing_law": "German law",
+    "jurisdiction": "the place of business of You Can Automate This",
+    "related_systems": [
+      {
+        "title": "Automated proposals",
+        "body": "The system that produced this document: call notes in, a finished proposal with scope, timeline, investment and deposit invoice out."
+      }
+    ]
+  },
+  "colors": {
+    "paper": "#f5f0e6",
+    "ink": "#0b0b0a",
+    "body": "#3d3a34",
+    "muted": "#777167",
+    "accent": "#827900",
+    "highlight": "#fceb00",
+    "line": "#cfc8b8",
+    "panel": "#fbf7ee",
+    "dots": "rgba(11, 11, 10, 0.075)"
+  },
+  "fonts": {
+    "serif": "'Libre Baskerville', Georgia, serif",
+    "sans": "'DM Sans', system-ui, sans-serif",
+    "mono": "'DM Mono', ui-monospace, monospace",
+    "stylesheets": [
+      "@fonts/libre-baskerville/font.css",
+      "@fonts/dm-sans/font.css",
+      "@fonts/dm-mono/font.css"
+    ]
+  },
+  "typography": {
+    "heading_weight": 400,
+    "accent_style": "italic"
+  },
+  "logo": "monogram.svg"
+}

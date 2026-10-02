@@ -1,0 +1,139 @@
+{
+  "sample": true,
+  "slug": "acme-freight",
+  "date": "2026-10-01",
+  "valid_days": 14,
+  "mode": "direct",
+  "marketplace": "",
+  "currency": "EUR",
+  "client": {
+    "first_name": "Jane",
+    "last_name": "Example",
+    "company": "Acme Freight GmbH",
+    "email": "jane@acme-example.com",
+    "country": "DE",
+    "address": [],
+    "vat_id": ""
+  },
+  "title": "Delivery proof on autopilot",
+  "title_accent": "for Acme Freight",
+  "subtitle": "Every delivery logged once by the driver and reported to your customer the same day, with no evening typing in the office.",
+  "problem": {
+    "headline": "Paper logbooks are slowing",
+    "headline_accent": "your customer reporting down.",
+    "intro": "I spent some time boiling our conversation down to the areas I think you need help with. Here is what I believe the core problems are.",
+    "items": [
+      {
+        "title": "Proof per delivery, collected on paper",
+        "body": "Your larger retail customers now ask for proof for each delivery: who drove, when it arrived and the condition of the goods. Across 40 trucks, that information still starts life in a paper logbook."
+      },
+      {
+        "title": "Two people typing every evening",
+        "body": "Two of your office staff copy the logbooks into Excel every evening. That is skilled time spent on transcription, and it is the step where typing errors slip in."
+      },
+      {
+        "title": "Reports that arrive days late",
+        "body": "A customer report currently takes 2 to 3 days. For a customer who has to answer to their own auditors, the delay is what they notice, and a wrong number costs more trust than a late one."
+      },
+      {
+        "title": "Delivery questions piling up",
+        "body": "Customers email questions about single deliveries, and every answer means someone digging through Excel. Those emails pile up next to the evening typing."
+      }
+    ],
+    "outro": "The following pages cover the full scope we discussed, including the investment, so you have everything for Friday with your CFO. If anything is unclear, just reply to the email this came with."
+  },
+  "solution": {
+    "headline": "Logged once at the truck,",
+    "headline_accent": "reported the same day.",
+    "intro": "My proposed solution replaces the paper to Excel step with one clean flow of data, built in four parts.",
+    "items": [
+      {
+        "title": "Digital driver check-in",
+        "body": "Drivers fill a short mobile form per delivery: vehicle, arrival time, condition of the goods and a signature photo. It takes about as long as the logbook entry and needs no app install."
+      },
+      {
+        "title": "One Google Sheet as the single source of truth",
+        "body": "Every check-in lands directly in one Google Sheet, checked for missing or impossible values on the way in. No retyping, and the office sees each delivery as soon as it is logged."
+      },
+      {
+        "title": "Same-day delivery reports",
+        "body": "An n8n workflow builds the delivery report per customer as a PDF and emails it to the right contact. What takes 2 to 3 days today goes out the same day."
+      },
+      {
+        "title": "An AI assistant for delivery questions",
+        "body": "When a customer emails a question about a delivery, the assistant looks it up in the Sheet and drafts the reply. For the first month a person on your team approves every reply before it is sent."
+      }
+    ],
+    "outro": "I consider this straightforward and I'm confident I can do an outstanding job here. If I wasn't, I wouldn't have written this proposal."
+  },
+  "scope": {
+    "intro": "The project delivers the following:",
+    "items": [
+      "One (1) mobile check-in form for drivers: vehicle, arrival time, condition, signature photo",
+      "One (1) Google Sheet as the single source of truth, with input checks and a view per customer",
+      "One (1) n8n workflow that emails each customer a same-day PDF delivery report from your Gmail",
+      "One (1) n8n workflow that drafts replies to delivery questions from the Sheet, using OpenAI",
+      "A first-month approval step: a person on your team checks every drafted reply before it is sent",
+      "Retries on every Google and OpenAI step, and an alert email naming the failed step",
+      "A test run with real deliveries before go-live, with a written checklist of what was tested",
+      "A one-page driver guide and a handover pack: architecture diagram, workflow guide, n8n JSON",
+      "One (1) 45-minute handover call with your office team, recorded"
+    ],
+    "outro": "Credentials stay yours and live in your n8n and Google Workspace; nothing is hard-coded in the export."
+  },
+  "milestones": {
+    "intro": "About three weeks in total, based on building similar systems.",
+    "items": [
+      {
+        "name": "Check-in form and Google Sheet, tested with two drivers",
+        "duration": "4 business days"
+      },
+      {
+        "name": "Same-day PDF reports and email delivery",
+        "duration": "4 business days"
+      },
+      {
+        "name": "AI assistant for customer emails, with the approval step",
+        "duration": "4 business days"
+      },
+      {
+        "name": "Test run with real deliveries, guides and handover call",
+        "duration": "3 business days"
+      }
+    ],
+    "note": "I aim to deliver ahead of this. The one thing that can move it is access: the timeline starts once your n8n, Google Workspace and OpenAI accounts are shared, along with a few current logbook pages and customer reports."
+  },
+  "related": [],
+  "pricing": {
+    "items": [
+      {
+        "name": "Delivery reporting system for Acme Freight, fixed price",
+        "price": 4800,
+        "qty": 1
+      }
+    ],
+    "running_costs": [
+      {
+        "name": "OpenAI API",
+        "price": "~€20 / month",
+        "note": "depends on email volume"
+      },
+      {
+        "name": "n8n server",
+        "price": "~€10 / month",
+        "note": "your self-hosted server"
+      }
+    ],
+    "note": ""
+  },
+  "vat": {
+    "rate": 0.19,
+    "label": "VAT 19%"
+  },
+  "payment_terms": {
+    "deposit_pct": 50,
+    "invoice_due_days": 14
+  },
+  "deposit_link": null,
+  "invoice_number": ""
+}

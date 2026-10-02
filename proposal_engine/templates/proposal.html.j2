@@ -1,0 +1,207 @@
+{#- One <section class="page"> per A4 page. All proposal copy is autoescaped; only the `rich` filter
+    turns blank lines, **bold** and *italic* into markup. -#}
+{%- macro headline(main, accent) -%}
+<h1>{{ main }}{% if accent %} <em class="accent">{{ accent }}</em>{% endif %}</h1>
+{%- endmacro -%}
+{%- macro numbered(items) -%}
+<div class="items">
+{%- for it in items %}
+    <div class="item"><div class="num">{{ "%02d" | format(loop.index) }}</div><div><h3>{{ it.title }}</h3>{{ it.body | rich }}</div></div>
+{%- endfor %}
+  </div>
+{%- endmacro -%}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ p.full_title }} | {{ agency.name }}</title>
+{%- for href in stylesheets %}
+<link rel="stylesheet" href="{{ href }}">
+{%- endfor %}
+<style>
+{{ css }}
+</style>
+</head>
+<body>
+{%- for page in pages %}
+<section class="page {{ page.kind }}-page" data-label="{{ page.label }}" data-fields="{{ page.fields }}">
+{%- if page.kind != "cover" %}
+  <div class="kicker"><span class="rule"></span>{{ "%02d" | format(loop.index0) }} / {{ page.label }}</div>
+{%- endif %}
+
+{%- if page.kind == "cover" %}
+  <div class="topbar"><span>{{ agency.short_name }} / Proposal</span><span class="line"></span><span>{{ date_long }}</span>
+    {%- if p.sample %}<span class="stamp">Sample, fictional client</span>{% endif %}</div>
+  <div class="cover-body">
+    <div class="kicker"><span class="rule"></span>Prepared for {{ p.client.company }}</div>
+    <h1 class="cover-title">{{ p.title }}{% if p.title_accent %}<br><em class="accent">{{ p.title_accent }}</em>{% endif %}</h1>
+    <div class="highlighter"></div>
+    {%- if p.subtitle %}
+    <p class="cover-sub">{{ p.subtitle }}</p>
+    {%- endif %}
+  </div>
+  <div class="cover-meta">
+    <div><div class="label">For</div><div>{{ client_name }}<br>{{ p.client.company }}</div></div>
+    <div><div class="label">From</div><div>{{ agency.person }}<br>{{ agency.name }}</div></div>
+    <div><div class="label">Valid until</div><div>{{ valid_until }}</div></div>
+  </div>
+  <div class="cover-foot">{% if logo %}<img class="mark" src="{{ logo }}" alt="{{ agency.short_name }}">{% else %}<span></span>{% endif %}<span>{{ agency.website }}</span></div>
+
+{%- elif page.kind == "problem" %}
+  {{ headline(p.problem.headline, p.problem.headline_accent) }}
+  <div class="lead"><p>Hi {{ p.client.first_name }},</p>{{ p.problem.intro | rich }}</div>
+  {{ numbered(p.problem.items) }}
+  <div class="outro">{{ p.problem.outro | rich }}<p class="sig">Thanks,<br><span class="script">{{ agency.person_first_name }}</span></p></div>
+
+{%- elif page.kind == "solution" %}
+  {{ headline(p.solution.headline, p.solution.headline_accent) }}
+  {%- if p.solution.intro %}
+  <div class="lead">{{ p.solution.intro | rich }}</div>
+  {%- endif %}
+  {{ numbered(p.solution.items) }}
+  {%- if p.solution.outro %}
+  <div class="outro">{{ p.solution.outro | rich }}</div>
+  {%- endif %}
+
+{%- elif page.kind == "scope" %}
+  {{ headline("What you get,", "and when.") }}
+  {%- if p.scope.intro %}
+  <div class="lead">{{ p.scope.intro | rich }}</div>
+  {%- endif %}
+  <ul class="scope">
+  {%- for item in p.scope.items %}
+    <li>{{ item }}</li>
+  {%- endfor %}
+  </ul>
+  {%- if p.scope.outro %}
+  <div class="small mt-s">{{ p.scope.outro | rich }}</div>
+  {%- endif %}
+  <h2>Timeline</h2>
+  {%- if p.milestones.intro %}
+  <div>{{ p.milestones.intro | rich }}</div>
+  {%- endif %}
+  <table class="timeline">
+  {%- for m in p.milestones.items %}
+    <tr><td class="ms">{{ "%02d" | format(loop.index) }}</td><td>{{ m.name }}</td><td class="dur">{{ m.duration }}</td></tr>
+  {%- endfor %}
+  </table>
+  {%- if p.milestones.note %}
+  <div class="small mt-s">{{ p.milestones.note | rich }}</div>
+  {%- endif %}
+
+{%- elif page.kind == "related" %}
+  {{ headline("Built in our business", "before yours.") }}
+  <div class="lead"><p>Next to the system above, these are systems I already run, in case one of them is on your list too.</p></div>
+  <div class="cards">
+  {%- for r in p.related %}
+    <div class="card"><div class="num">{{ "%02d" | format(loop.index) }}</div><h3>{{ r.title }}</h3>{{ r.body | rich }}</div>
+  {%- endfor %}
+  </div>
+
+{%- elif page.kind == "investment" %}
+  {{ headline("Your", "investment.") }}
+  <div class="lead">{% if p.pricing.note %}{{ p.pricing.note | rich }}{% else %}<p>This is a two-step package: {{ pct }} up front, the balance on delivery. Delivery means the scope above is fulfilled, and the balance is only due once you are fully satisfied with it.</p>{% endif %}</div>
+  <table class="invest">
+    <tr class="head"><td>Item</td><td class="num">Price</td><td class="num">Qty</td><td class="num">Subtotal</td></tr>
+    {%- for line in totals.lines %}
+    <tr><td>{{ line.name }}</td><td class="num">{{ money(line.unit_price) }}</td><td class="num">{{ line.qty }}</td><td class="num">{{ money(line.subtotal) }}</td></tr>
+    {%- endfor %}
+    {%- if totals.vat_rate > 0 %}
+    <tr class="sum"><td colspan="3">Total (net)</td><td class="num">{{ money(totals.net) }}</td></tr>
+    <tr class="sum"><td colspan="3">{{ p.vat.label or "VAT" }}</td><td class="num">{{ money(totals.vat) }}</td></tr>
+    {%- endif %}
+    <tr class="sum total"><td colspan="3">Total</td><td class="num">{{ money(totals.gross) }}</td></tr>
+    {%- if totals.vat_rate == 0 and p.vat.label %}
+    <tr class="sum note"><td colspan="4">{{ p.vat.label }}</td></tr>
+    {%- endif %}
+    <tr class="sum"><td colspan="3">{{ pct }} up front</td><td class="num">{{ money(totals.deposit_gross) }}</td></tr>
+    <tr class="sum"><td colspan="3">Balance on delivery</td><td class="num">{{ money(totals.balance_gross) }}</td></tr>
+    <tr class="due"><td colspan="3">Due {{ "on award" if marketplace else "at signing" }}</td><td class="num"><span class="hl">{{ money(totals.deposit_gross) }}</span></td></tr>
+  </table>
+  {%- if p.pricing.running_costs %}
+  <div class="label mt">Running costs, paid directly to the platforms</div>
+  <table class="running">
+    {%- for r in p.pricing.running_costs %}
+    <tr><td>{{ r.name }}</td><td class="num">{{ r.price }}</td><td>{{ r.note }}</td></tr>
+    {%- endfor %}
+  </table>
+  {%- endif %}
+  <div class="paybox">
+  {%- if marketplace %}
+    <div class="label">How payment works</div>
+    <p>All payments run through {{ p.marketplace }}. On award, the {{ pct }} for the first milestone is funded in {{ p.marketplace }} escrow and released when you approve it; the rest follows the milestones.</p>
+  {%- elif p.deposit_link %}
+    <div class="label">To start</div>
+    <p>Paying the deposit accepts this proposal and the services agreement. Work starts as soon as it is paid.</p>
+    <a class="btn" href="{{ p.deposit_link }}">Pay the {{ pct }} deposit &nbsp;&#8599;</a>
+    <div class="link">{{ p.deposit_link }}</div>
+  {%- else %}
+    <div class="label">To start</div>
+    <p>The deposit invoice is on the last page. Paying it accepts this proposal and the services agreement, and work starts as soon as it is paid.</p>
+  {%- endif %}
+  </div>
+
+{%- elif page.kind == "agreement" %}
+  {{ headline("Terms &", "agreement.") }}
+  <div class="lead">
+    <p>{{ agency.name }} ({{ agency.person }}) will build the system described in this proposal for {{ p.client.company }}, under the services agreement below. It protects your confidentiality and keeps information sharing simple. Features, extensions or integrations outside the scope above may change the timeline and the investment; we agree on those in writing first. Questions: {{ agency.email }}.</p>
+    <p>{% if marketplace %}Accepting the {{ p.marketplace }} contract{% else %}Paying the deposit, or signing below,{% endif %} means both parties accept this proposal and the agreement, and work can start.</p>
+  </div>
+  <div class="agreement">
+    <h4>Services agreement</h4>
+    <p><strong>1. Services.</strong> {{ agency.name }} delivers the scope of work in this proposal. Changes to scope are agreed in writing (email is enough) before they are built.</p>
+    <p><strong>2. Payment.</strong> {% if marketplace %}Payments are made through {{ p.marketplace }} milestones and are governed by the {{ p.marketplace }} terms of service.{% else %}{{ pct }} of the total is due before work starts, the balance on delivery. Invoices are payable within {{ p.payment_terms.invoice_due_days }} days.{% endif %} Prices are in {{ p.currency }}. Third-party platform and API costs are paid by the Client directly to the provider unless listed above.</p>
+    <p><strong>3. Client input.</strong> The Client provides access, credentials and material needed for the work in time. Delays on the Client's side move the timeline by the same amount.</p>
+    <p><strong>4. Confidentiality.</strong> Both parties keep the other's non-public information confidential, use it only for this project, and return or delete it on request. This survives the end of the agreement.</p>
+    <p><strong>5. Ownership.</strong> On full payment, the Client owns the delivered workflows, configurations and documentation. {{ agency.name }} keeps its general know-how, tools and reusable components, and may describe the project in anonymised form unless the Client objects.</p>
+    <p><strong>6. Data.</strong> Where personal data is processed on the Client's behalf, the parties sign a data processing agreement (Art. 28 GDPR) before live data flows.</p>
+    <p><strong>7. Warranty and liability.</strong> Defects in the delivered scope reported within 30 days of delivery are fixed at no cost. Liability is limited to the fees paid under this agreement, except for intent and gross negligence. No liability for third-party platform outages or changes.</p>
+    <p><strong>8. Term.</strong> Either party may end the project in writing; work done up to that point is paid pro rata. {{ agency.governing_law }} applies{% if agency.jurisdiction %}; the place of jurisdiction is {{ agency.jurisdiction }} where legally permitted{% endif %}.</p>
+  </div>
+  <div class="signatures">
+    <div><div class="sigline"></div><div class="label">{{ agency.person }}, {{ agency.name }}</div></div>
+    <div><div class="sigline"></div><div class="label">{{ client_name }}, {{ p.client.company }}</div></div>
+  </div>
+  <div class="imprint">{{ imprint }}</div>
+
+{%- elif page.kind == "invoice" %}
+  {{ headline("Deposit", "invoice.") }}
+  <div class="inv-meta">
+    <div><div class="label">Invoice no.</div><div>{{ invoice_number }}</div></div>
+    <div><div class="label">Issued</div><div>{{ date_long }}</div></div>
+    <div><div class="label">Due</div><div>On acceptance</div></div>
+  </div>
+  <div class="inv-parties">
+    <div><div class="label">From</div><p>{{ agency.name }}<br>{{ agency.person }}{% for line in agency.address %}<br>{{ line }}{% endfor %}<br>{{ agency.email }}{% if agency.vat_id %}<br>VAT ID {{ agency.vat_id }}{% endif %}</p></div>
+    <div><div class="label">Bill to</div><p>{{ p.client.company }}<br>{{ client_name }}{% for line in p.client.address %}<br>{{ line }}{% endfor %}{% if p.client.email %}<br>{{ p.client.email }}{% endif %}{% if p.client.vat_id %}<br>VAT ID {{ p.client.vat_id }}{% endif %}</p></div>
+  </div>
+  <table class="invest">
+    <tr class="head"><td>Description</td><td class="num">Amount</td></tr>
+    <tr><td>{{ pct }} deposit: {{ p.full_title }}</td><td class="num">{{ money(totals.deposit_net) }}</td></tr>
+    {%- if totals.vat_rate > 0 %}
+    <tr class="sum"><td>{{ p.vat.label or "VAT" }}</td><td class="num">{{ money(totals.deposit_vat) }}</td></tr>
+    {%- elif p.vat.label %}
+    <tr class="sum note"><td colspan="2">{{ p.vat.label }}</td></tr>
+    {%- endif %}
+    <tr class="due"><td>Amount due</td><td class="num"><span class="hl">{{ money(totals.deposit_gross) }}</span></td></tr>
+  </table>
+  <div class="paybox">
+    <div class="label">How to pay</div>
+  {%- if p.deposit_link %}
+    <p>Pay online with the secure payment link. A receipt is sent automatically.</p>
+    <a class="btn" href="{{ p.deposit_link }}">Pay {{ money(totals.deposit_gross) }} &nbsp;&#8599;</a>
+    <div class="link">{{ p.deposit_link }}</div>
+  {%- elif agency.bank %}
+    <p>Bank transfer to {{ agency.bank.account_holder }}<br>IBAN {{ agency.bank.iban }}{% if agency.bank.bic %} · BIC {{ agency.bank.bic }}{% endif %}<br>Reference: {{ invoice_number }}</p>
+  {%- else %}
+    <p>Reply to accept this proposal and you will receive a payment link for this invoice. Reference: {{ invoice_number }}.</p>
+  {%- endif %}
+  </div>
+  <div class="small mt">The balance of {{ money(totals.balance_gross) }} is invoiced on delivery and payable within {{ p.payment_terms.invoice_due_days }} days.</div>
+  <div class="imprint">{{ imprint }}</div>
+{%- endif %}
+  <div class="pfoot"><span>{{ agency.short_name }} / {{ p.full_title }}</span><span>{{ loop.index }} / {{ pages | length }}</span></div>
+</section>
+{%- endfor %}
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "name": "Neutral",
+  "agency": {
+    "name": "Example Automation Studio",
+    "short_name": "EAS",
+    "person": "Alex Example",
+    "person_first_name": "Alex",
+    "email": "hello@example.com",
+    "website": "example.com",
+    "address": ["Example Street 1", "12345 Example City, Germany"],
+    "vat_id": "",
+    "country": "DE",
+    "domestic_vat_rate": 0.19,
+    "domestic_vat_label": "VAT 19%",
+    "governing_law": "German law",
+    "jurisdiction": "the place of business of Example Automation Studio",
+    "related_systems": []
+  },
+  "colors": {
+    "paper": "#ffffff",
+    "ink": "#0f172a",
+    "body": "#334155",
+    "muted": "#64748b",
+    "accent": "#2563eb",
+    "highlight": "#bfdbfe",
+    "line": "#e2e8f0",
+    "panel": "#f8fafc",
+    "dots": "transparent"
+  },
+  "fonts": {
+    "serif": "'DM Sans', system-ui, sans-serif",
+    "sans": "'DM Sans', system-ui, sans-serif",
+    "mono": "'DM Mono', ui-monospace, monospace",
+    "stylesheets": [
+      "@fonts/dm-sans/font.css",
+      "@fonts/dm-mono/font.css"
+    ]
+  },
+  "typography": {
+    "heading_weight": 600,
+    "accent_style": "normal"
+  },
+  "logo": "logo.svg"
+}

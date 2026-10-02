@@ -1,0 +1,7 @@
+# Tool config only. The project runs from the repo (themes and fonts live next to the code):
+# pip install -r requirements.txt, then python demo.py.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["browser: needs Chromium (bundled by Playwright, or PROPOSAL_CHROMIUM)"]

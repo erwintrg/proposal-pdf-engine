@@ -1,0 +1,148 @@
+/* Proposal layout: one <section class="page"> per A4 page, fixed height, so nothing can flow onto
+   an extra sheet. Colors, fonts and two type settings come from the theme as CSS variables. */
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--paper); }
+body {
+  font-family: var(--sans); color: var(--body); font-size: 10.5pt; line-height: 1.62;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page {
+  position: relative; padding: 22mm 20mm 20mm; height: 297mm; overflow: hidden;
+  break-after: page; page-break-after: always;
+  background: radial-gradient(circle, var(--dots) .7px, transparent 1px) 0 0 / 14px 14px, var(--paper);
+}
+.page:last-child { break-after: auto; page-break-after: auto; }
+
+/* type */
+h1 {
+  font-family: var(--serif); font-weight: var(--heading-weight); color: var(--ink);
+  font-size: 30pt; line-height: 1.12; letter-spacing: -.5px; margin: 6mm 0 7mm; max-width: 155mm;
+}
+h2 {
+  font-family: var(--serif); font-weight: var(--heading-weight); color: var(--ink);
+  font-size: 17pt; line-height: 1.2; margin: 9mm 0 2mm;
+}
+.accent { font-style: var(--accent-style); color: var(--accent); }
+h3 { font-family: var(--serif); font-weight: 700; color: var(--ink); font-size: 12.5pt; line-height: 1.3; margin-bottom: 1.5mm; }
+h4 { font-family: var(--mono); font-weight: 500; font-size: 8pt; letter-spacing: 2px; text-transform: uppercase; color: var(--ink); margin-bottom: 3mm; }
+p + p { margin-top: 2.6mm; }
+strong { color: var(--ink); font-weight: 600; }
+.kicker, .label, .topbar {
+  font-family: var(--mono); font-size: 7.5pt; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+}
+.kicker { display: flex; align-items: center; gap: 4mm; color: var(--ink); }
+.kicker .rule { display: inline-block; width: 9mm; border-top: 1px solid var(--ink); }
+.lead { font-size: 11.5pt; max-width: 155mm; }
+.outro { margin-top: 7mm; max-width: 155mm; }
+.small { font-size: 9.5pt; color: var(--muted); max-width: 165mm; }
+.mt { margin-top: 7mm; }
+.mt-s { margin-top: 4mm; }
+
+/* cover */
+.cover-page { display: flex; flex-direction: column; padding-bottom: 14mm; }
+.topbar { display: flex; align-items: center; gap: 5mm; padding-bottom: 4mm; border-bottom: 1px solid var(--line); }
+.topbar .line { flex: 0 0 18mm; border-top: 1px solid var(--ink); }
+.topbar .stamp { margin-left: auto; color: var(--ink); border: 1px solid var(--ink); padding: .5mm 2mm; letter-spacing: 1.5px; }
+.cover-body { margin-top: 48mm; }
+.cover-title { font-size: 46pt; line-height: 1.05; letter-spacing: -1.2px; max-width: 165mm; margin: 7mm 0 0; }
+.highlighter { width: 78mm; height: 3.2mm; background: var(--highlight); transform: rotate(-1.2deg); margin: 3mm 0 9mm; }
+.cover-sub { font-size: 13pt; max-width: 125mm; line-height: 1.55; }
+.cover-meta {
+  margin-top: auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6mm;
+  border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 6mm 0; color: var(--ink); font-size: 10.5pt;
+}
+.cover-meta > div + div { border-left: 1px solid var(--line); padding-left: 6mm; }
+.cover-meta .label { margin-bottom: 2mm; }
+.cover-foot {
+  display: flex; justify-content: space-between; align-items: center; margin-top: 8mm;
+  font-family: var(--mono); font-size: 8pt; letter-spacing: 1px; color: var(--muted);
+}
+.mark { width: 15mm; height: 15mm; object-fit: contain; }
+.cover-page .pfoot { display: none; }
+
+/* numbered items (problem, solution) */
+.items { margin-top: 8mm; border-top: 1px solid var(--ink); }
+.item { display: grid; grid-template-columns: 16mm 1fr; gap: 4mm; padding: 5mm 0; border-bottom: 1px solid var(--line); break-inside: avoid; }
+.item .num, .card .num {
+  font-family: var(--serif); font-style: var(--accent-style); color: var(--accent); font-size: 17pt; line-height: 1.1;
+}
+.sig { margin-top: 5mm; color: var(--ink); }
+.script { font-family: var(--serif); font-style: var(--accent-style); font-size: 15pt; }
+
+/* scope and timeline */
+.scope-page h1 { font-size: 26pt; margin: 5mm 0 4mm; }
+.scope-page h2 { margin-top: 7mm; }
+.scope { list-style: none; margin-top: 4mm; border-top: 1px solid var(--ink); }
+.scope li {
+  position: relative; padding: 2.3mm 0 2.3mm 9mm; border-bottom: 1px solid var(--line); break-inside: avoid;
+  color: var(--ink); font-size: 10pt; line-height: 1.5;
+}
+.scope li::before {
+  content: ""; position: absolute; left: 0; top: 3.6mm; width: 3.2mm; height: 3.2mm;
+  background: var(--highlight); box-shadow: 1px 1px 0 var(--ink);
+}
+table { width: 100%; border-collapse: collapse; }
+.timeline { margin-top: 3mm; border-top: 1px solid var(--ink); }
+.timeline td { padding: 2.6mm 0; border-bottom: 1px solid var(--line); color: var(--ink); vertical-align: top; font-size: 10pt; }
+.timeline .ms { width: 11mm; font-family: var(--serif); font-style: var(--accent-style); color: var(--accent); }
+.timeline .dur {
+  text-align: right; font-family: var(--mono); font-size: 8.5pt; letter-spacing: 1px; color: var(--muted);
+  white-space: nowrap; padding-left: 6mm;
+}
+
+/* related systems */
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 8mm; }
+.card { border-top: 1px solid var(--ink); padding-top: 4mm; break-inside: avoid; font-size: 10pt; }
+
+/* investment + invoice tables */
+.invest { margin-top: 8mm; font-size: 10.5pt; }
+.invest td { padding: 3mm 0; border-bottom: 1px solid var(--line); color: var(--ink); }
+.invest .head td {
+  font-family: var(--mono); font-size: 7.5pt; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); border-bottom: 1px solid var(--ink);
+}
+.invest .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; padding-left: 4mm; }
+.invest .sum td { color: var(--body); }
+.invest .total td { color: var(--ink); font-weight: 600; }
+.invest .note td { font-size: 9pt; color: var(--muted); }
+.invest .due td { border-bottom: 2px solid var(--ink); font-family: var(--serif); font-size: 15pt; padding-top: 5mm; }
+.hl { background: linear-gradient(transparent 58%, var(--highlight) 58%); padding: 0 1mm; }
+.running { margin-top: 2mm; }
+.running td { padding: 2.4mm 0; border-bottom: 1px solid var(--line); font-size: 9.5pt; }
+.running td.num { text-align: right; font-family: var(--mono); font-size: 8.5pt; padding-right: 6mm; white-space: nowrap; }
+.paybox { margin-top: 9mm; border: 1px solid var(--ink); padding: 6mm 7mm; background: var(--panel); break-inside: avoid; }
+.paybox .label { margin-bottom: 2mm; color: var(--ink); }
+.btn {
+  display: inline-block; margin-top: 4mm; padding: 3.2mm 7mm; background: var(--highlight); color: var(--ink);
+  font-weight: 600; text-decoration: none; border: 1px solid var(--ink); box-shadow: 1.2mm 1.2mm 0 var(--ink);
+}
+.paybox .link { margin-top: 4mm; font-family: var(--mono); font-size: 7pt; color: var(--muted); word-break: break-all; }
+
+/* services agreement */
+.agreement-page .lead { font-size: 10pt; }
+.agreement {
+  margin-top: 7mm; column-count: 2; column-gap: 8mm; font-size: 8.3pt; line-height: 1.5;
+  border-top: 1px solid var(--ink); padding-top: 5mm;
+}
+.agreement p { break-inside: avoid; margin-top: 0 !important; margin-bottom: 2.2mm; }
+.agreement h4 { column-span: all; }
+.signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 14mm; margin-top: 16mm; break-inside: avoid; }
+.sigline { border-bottom: 1px solid var(--ink); height: 14mm; margin-bottom: 2mm; }
+.imprint { margin-top: 10mm; font-family: var(--mono); font-size: 6.5pt; letter-spacing: .5px; color: var(--muted); }
+
+/* deposit invoice */
+.inv-meta {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; margin-top: 2mm;
+  border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 5mm 0; color: var(--ink);
+}
+.inv-meta > div + div { border-left: 1px solid var(--line); padding-left: 6mm; }
+.inv-meta .label, .inv-parties .label { margin-bottom: 1.5mm; }
+.inv-parties { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; margin-top: 8mm; color: var(--ink); font-size: 10pt; line-height: 1.55; }
+
+/* per-page footer, inside the page so it sits on the paper */
+.pfoot {
+  position: absolute; left: 20mm; right: 20mm; bottom: 9mm; display: flex; justify-content: space-between;
+  border-top: 1px solid var(--line); padding-top: 2.5mm;
+  font-family: var(--mono); font-size: 6.5pt; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted);
+}

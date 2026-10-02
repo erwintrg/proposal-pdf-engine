@@ -1,0 +1,6 @@
+# Real mode, only needed for the matching flags.
+-r requirements.txt
+anthropic>=1.11                # draft.py --backend anthropic
+stripe>=12                     # render.py --stripe
+google-api-python-client>=2.100  # render.py --drive
+google-auth>=2.20                # render.py --drive
