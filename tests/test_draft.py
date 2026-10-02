@@ -173,11 +173,11 @@ def test_malformed_answer_gets_repaired(notes, recorded, ycat, scripted):
 
 
 def test_claude_cli_command_line():
-    cmd = ClaudeCliBackend(executable="claude", model="claude-opus-5").command("SYSTEM", {"type": "object"})
+    cmd = ClaudeCliBackend(executable="claude", model="claude-opus-5-5").command("SYSTEM", {"type": "object"})
     assert cmd[1:3] == ["-p", "--output-format"]
     assert cmd[cmd.index("--json-schema") + 1] == '{"type": "object"}'
     assert cmd[cmd.index("--tools") + 1] == ""  # no tools: pure generation
-    assert "--no-session-persistence" in cmd and cmd[-2:] == ["--model", "claude-opus-5"]
+    assert "--no-session-persistence" in cmd and cmd[-2:] == ["--model", "claude-opus-5-5"]
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="uses a POSIX shebang script as a fake CLI")

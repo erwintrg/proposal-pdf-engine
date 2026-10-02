@@ -44,7 +44,7 @@ from .schema import (
 )
 from .theme import Agency, Theme
 
-DEFAULT_MODEL = "claude-opus-5"
+DEFAULT_MODEL = "claude-opus-5-5"
 SYSTEM_TEMPLATE = PACKAGE_DIR / "prompts" / "draft_system.md"
 
 EU_COUNTRIES = {

@@ -37,7 +37,7 @@ def main(argv: list[str] | None = None) -> int:
                     help="mock backend: recorded model answer (default: recorded-draft.json next to the notes)")
     ap.add_argument("--theme", default=os.environ.get("PROPOSAL_THEME", "ycat"),
                     help="theme name or folder; its agency block feeds the prompt and the VAT rules")
-    ap.add_argument("--model", help="anthropic / claude-cli: model id (default: $PROPOSAL_MODEL, else claude-opus-5)")
+    ap.add_argument("--model", help="anthropic / claude-cli: model id (default: $PROPOSAL_MODEL, else claude-opus-5-5)")
     ap.add_argument("--date", type=dt.date.fromisoformat, help="proposal date, YYYY-MM-DD (default: today)")
     ap.add_argument("--sample", action="store_true", help="mark the cover as a sample with a fictional client")
     ap.add_argument("--max-repairs", type=int, default=1, help="repair rounds after a failed check (default: 1)")
